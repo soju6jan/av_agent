@@ -41,7 +41,8 @@ menu = {
     'main' : [package_name, 'AV Agent'],
     'sub' : [
         ['setting', '설정'], ['log', '로그']
-    ]
+    ],
+    'category' : 'plex'
 }
 
 plugin_info = {

@@ -112,6 +112,7 @@ def api(sub):
         if sub == 'search':
             arg = request.args.get('code')
             ret = FileProcess.search(arg)
+            ret = reversed(ret)
         elif sub == 'update':
             arg = request.args.get('code')
             ret = FileProcess.update(arg)

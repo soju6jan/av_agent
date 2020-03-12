@@ -19,6 +19,8 @@ from framework import app, db, scheduler, path_data, socketio, check_api
 from framework.util import Util, AlchemyEncoder
 from system.logic import SystemLogic
 import framework.common.fileprocess as FileProcess
+from system.model import ModelSetting as SystemModelSetting
+
 
 # 로그
 package_name = __name__.split('.')[0]
@@ -77,7 +79,7 @@ def first_menu(sub):
     if sub == 'setting':
         arg = ModelSetting.to_dict()
         arg['package_name'] = package_name
-        arg['agent_server'] = SystemLogic.get_setting_value('ddns') + '/%s/api' % package_name
+        arg['agent_server'] = SystemModelSetting.get('ddns') + '/%s/api' % package_name
         return render_template('%s_setting.html' % package_name, sub=sub, arg=arg)
     elif sub == 'log':
         return render_template('log.html', package=package_name)

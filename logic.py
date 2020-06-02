@@ -50,6 +50,8 @@ class Logic(object):
             # 편의를 위해 json 파일 생성
             from plugin import plugin_info
             Util.save_from_dict_to_json(plugin_info, os.path.join(os.path.dirname(__file__), 'info.json'))
+
+            LogicNormal.proxy_init()
         except Exception as e: 
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())

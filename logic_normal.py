@@ -60,7 +60,6 @@ class LogicNormal(object):
     @staticmethod
     def test(req):
         try:
-            logger.debug(FileProcess.proxies)
             target = req.form['target']
             keyword = req.form['test']
             if target == 'dmm':
@@ -78,7 +77,6 @@ class LogicNormal(object):
     def test_dmm(keyword):
         try:
             import framework.common.fileprocess as FileProcess
-            logger.debug(FileProcess.proxies)
             ret = {}
             ret['search'] = FileProcess.dmm_search(keyword)
             if len(ret['search']) == 1:

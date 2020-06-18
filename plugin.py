@@ -166,7 +166,7 @@ def api(sub):
             from PIL import Image
             import requests
             image_url = request.args.get('url')
-            logger.debug('image_url : %s', image_url)
+            #logger.debug('image_url : %s', image_url)
             im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.proxies).raw)
             filename = os.path.join(path_data, 'tmp', 'proxy.jpg')
             im.save(filename)
@@ -175,8 +175,15 @@ def api(sub):
             from framework.common.notify import discord_proxy_image
             image_url = request.args.get('url')
             ret = discord_proxy_image(image_url, webhook_url=ModelSetting.get('discord_proxy_webhook_url'))
-            logger.debug(ret)
-            return redirect(ret)
+            #logger.debug(ret)
+            #return redirect(ret)
+            from PIL import Image
+            import requests
+            im = Image.open(requests.get(ret, stream=True, verify=False).raw)
+            filename = os.path.join(path_data, 'tmp', 'proxy.jpg')
+            im.save(filename)
+            return send_file(filename, mimetype='image/jpeg')
+
         return jsonify(ret)
         
     except Exception as e:

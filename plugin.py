@@ -166,7 +166,8 @@ def api(sub):
             from PIL import Image
             import requests
             image_url = request.args.get('url')
-            im = Image.open(requests.get(image_url, stream=True, proxies=FileProcess.proxies).raw)
+            logger.debug('image_url : %s', image_url)
+            im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.proxies).raw)
             filename = os.path.join(path_data, 'tmp', 'proxy.jpg')
             im.save(filename)
             return send_file(filename, mimetype='image/jpeg')

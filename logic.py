@@ -26,6 +26,8 @@ class Logic(object):
         'proxy_url' : '',
         'test_code' : '',
         'javdb_landscape_poster' : '3',
+        'use_discord_proxy' : 'False',
+        'discord_proxy_webhook_url' : '',
     }
     
     @staticmethod

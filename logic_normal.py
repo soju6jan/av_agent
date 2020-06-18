@@ -80,7 +80,7 @@ class LogicNormal(object):
             ret = {}
             ret['search'] = FileProcess.dmm_search(keyword)
             if len(ret['search']) == 1:
-                ret['update'] = FileProcess.dmm_update(ret['search'][0]['id'])
+                ret['update'] = FileProcess.dmm_update(ret['search'][0]['id'], use_discord_proxy=ModelSetting.get_bool('use_discord_proxy'))
             else:
                 for tmp in ret['search']:
                     if tmp['score'] == 100:

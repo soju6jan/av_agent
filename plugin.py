@@ -123,7 +123,7 @@ def api(sub):
         elif sub == 'update':
             logger.debug(FileProcess.proxies)
             arg = request.args.get('code')
-            ret = FileProcess.update(arg)
+            ret = FileProcess.update(arg, use_discord_proxy=ModelSetting.get_bool('use_discord_proxy'))
         elif sub == 'image':
             from PIL import Image
             import requests
@@ -171,7 +171,12 @@ def api(sub):
             filename = os.path.join(path_data, 'tmp', 'proxy.jpg')
             im.save(filename)
             return send_file(filename, mimetype='image/jpeg')
-
+        elif sub == 'discord_proxy':
+            from framework.common.notify import discord_proxy_image
+            image_url = request.args.get('url')
+            ret = discord_proxy_image(image_url, webhook_url=ModelSetting.get('discord_proxy_webhook_url'))
+            logger.debug(ret)
+            return redirect(ret)
         return jsonify(ret)
         
     except Exception as e:

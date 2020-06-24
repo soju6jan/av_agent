@@ -20,7 +20,7 @@ from framework import app, db, scheduler, path_data, socketio, check_api
 from framework.util import Util, AlchemyEncoder
 from system.logic import SystemLogic
 from system.model import ModelSetting as SystemModelSetting
-
+import framework.common.fileprocess as FileProcess
 
 # 로그
 package_name = __name__.split('.')[0]
@@ -92,16 +92,14 @@ def first_menu(sub):
 @login_required
 def ajax(sub):
     # 설정 저장
-    import framework.common.fileprocess as FileProcess
+    
     try:
         if sub == 'setting_save':
             ret = ModelSetting.setting_save(request)
             LogicNormal.proxy_init()
             return jsonify(ret)
         elif sub == 'test':
-            #import framework.common.fileprocess as FileProcess
-            #logger.debug('GGGGGGGGGGGGGGGGGG')
-            logger.debug(FileProcess.proxies)
+            logger.debug(FileProcess.Vars.proxies)
             ret = LogicNormal.test(request)
             return jsonify(ret)
     except Exception as e: 
@@ -115,13 +113,11 @@ def ajax(sub):
 @check_api
 def api(sub):
     try:
-        import framework.common.fileprocess as FileProcess
         if sub == 'search':
             arg = request.args.get('code')
             ret = FileProcess.search(arg)
             ret = list(reversed(ret))
         elif sub == 'update':
-            logger.debug(FileProcess.proxies)
             arg = request.args.get('code')
             ret = FileProcess.update(arg, use_discord_proxy=ModelSetting.get_bool('use_discord_proxy'))
         elif sub == 'image':
@@ -132,15 +128,15 @@ def api(sub):
             logger.debug(image_url)
             method = ModelSetting.get('javdb_landscape_poster')
             if method == '0':
-                if FileProcess.proxies is None:
+                if FileProcess.Vars.proxies is None:
                     return redirect(image_url)
                 else:
-                    im = Image.open(requests.get(image_url, stream=True, proxies=FileProcess.proxies).raw)
+                    im = Image.open(requests.get(image_url, stream=True, proxies=FileProcess.Vars.proxies).raw)
                     filename = os.path.join(path_data, 'tmp', 'rotate.jpg')
                     im.save(filename)
                     return send_file(filename, mimetype='image/jpeg')
             
-            im = Image.open(requests.get(image_url, stream=True, proxies=FileProcess.proxies).raw)
+            im = Image.open(requests.get(image_url, stream=True, proxies=FileProcess.Vars.proxies).raw)
             width,height = im.size
             logger.debug(width)
             logger.debug(height)
@@ -162,12 +158,11 @@ def api(sub):
             im.save(filename)
             return send_file(filename, mimetype='image/jpeg')
         elif sub == 'image_proxy':
-            import framework.common.fileprocess as FileProcess
             from PIL import Image
             import requests
             image_url = request.args.get('url')
             #logger.debug('image_url : %s', image_url)
-            im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.proxies).raw)
+            im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.Vars.proxies).raw)
             filename = os.path.join(path_data, 'tmp', 'proxy.jpg')
             im.save(filename)
             return send_file(filename, mimetype='image/jpeg')

@@ -36,17 +36,16 @@ class LogicNormal(object):
     @staticmethod
     def proxy_init():
         try:
-            import framework.common.fileprocess as FileProcess
-            logger.debug(FileProcess.proxies)
+            logger.debug(FileProcess.Vars.proxies)
             if ModelSetting.get_bool('use_proxy'):
                 tmp = ModelSetting.get('proxy_url')
-                FileProcess.proxies = { 
+                FileProcess.Vars.proxies = { 
                     "http"  : tmp, 
                     "https" : tmp, 
                 }
             else:
-                FileProcess.proxies = None
-            logger.debug(FileProcess.proxies)
+                FileProcess.Vars.proxies = None
+            logger.debug(FileProcess.Vars.proxies)
         except Exception as e: 
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
@@ -76,7 +75,6 @@ class LogicNormal(object):
     @staticmethod
     def test_dmm(keyword):
         try:
-            import framework.common.fileprocess as FileProcess
             ret = {}
             ret['search'] = FileProcess.dmm_search(keyword)
             if len(ret['search']) == 1:
@@ -84,7 +82,7 @@ class LogicNormal(object):
             else:
                 for tmp in ret['search']:
                     if tmp['score'] == 100:
-                        logger.debug('proxies : %s', FileProcess.proxies)
+                        logger.debug('proxies : %s', Vars.proxies)
                         ret['update'] = FileProcess.dmm_update(tmp['id'])
                         break
             return ret

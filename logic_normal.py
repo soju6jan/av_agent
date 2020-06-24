@@ -82,7 +82,6 @@ class LogicNormal(object):
             else:
                 for tmp in ret['search']:
                     if tmp['score'] == 100:
-                        logger.debug('proxies : %s', Vars.proxies)
                         ret['update'] = FileProcess.dmm_update(tmp['id'])
                         break
             return ret

@@ -160,11 +160,15 @@ def api(sub):
         elif sub == 'image_proxy':
             from PIL import Image
             import requests
+            #requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'DES-CBC3-SHA'
             image_url = request.args.get('url')
-            #logger.debug('image_url : %s', image_url)
-            im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.Vars.proxies).raw)
-            filename = os.path.join(path_data, 'tmp', 'proxy.jpg')
-            im.save(filename)
+            logger.debug('image_url : %s', image_url)
+            #2020-09-21 핸드쉐이크 에러
+            from system.logic_command import SystemLogicCommand
+            filename = os.path.join(path_data, 'tmp', 'proxy_%s.jpg' % str(time.time()) )
+            #im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.Vars.proxies).raw)
+            #im.save(filename)
+            ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url])
             return send_file(filename, mimetype='image/jpeg')
         elif sub == 'discord_proxy':
             from framework.common.notify import discord_proxy_image

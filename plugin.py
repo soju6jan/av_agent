@@ -42,17 +42,17 @@ blueprint = Blueprint(package_name, package_name, url_prefix='/%s' %  package_na
 menu = {
     'main' : [package_name, 'AV Agent'],
     'sub' : [
-        ['setting', '설정'], ['log', '로그']
+        ['setting', u'설정'], ['log', u'로그']
     ],
     'category' : 'plex'
 }
 
 plugin_info = {
     'version' : '0.1.0.0',
-    'name' : 'av_agent',
+    'name' : u'av_agent',
     'category_name' : 'plex',
     'developer' : 'soju6jan',
-    'description' : 'Plex SJVA AV Agent와 연동하는 플러그인',
+    'description' : u'Plex SJVA AV Agent와 연동하는 플러그인',
     'home' : 'https://github.com/soju6jan/av_agent',
     'more' : '',
 }

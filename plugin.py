@@ -169,6 +169,9 @@ def api(sub):
             #im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.Vars.proxies).raw)
             #im.save(filename)
             if ModelSetting.get_bool('use_proxy'):
+                tmp = image_url.split('//')
+                if len(tmp) == 2:
+                    image_url = tmp[1]
                 command = ['wget', '-O', filename, image_url, '-e', 'use_proxy=yes', '-e', 'http_proxy=%s' % ModelSetting.get('proxy_url').replace('https://', '').replace('http://', '')]
                 logger.debug(' '.join(command))
                 ret = SystemLogicCommand.execute_command_return(command)

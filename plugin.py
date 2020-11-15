@@ -170,7 +170,7 @@ def api(sub):
             #im.save(filename)
             if ModelSetting.get_bool('use_proxy'):
                 command = ['wget', '-O', filename, image_url, '-e', 'use_proxy=yes', '-e', 'http_proxy=%s' % ModelSetting.get('proxy_url').replace('https://', '').replace('http://', '')]
-                logger.debubg(' '.join(command))
+                logger.debug(' '.join(command))
                 ret = SystemLogicCommand.execute_command_return(command)
             else:
                 ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url])

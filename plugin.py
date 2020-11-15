@@ -168,7 +168,10 @@ def api(sub):
             filename = os.path.join(path_data, 'tmp', 'proxy_%s.jpg' % str(time.time()) )
             #im = Image.open(requests.get(image_url, stream=True, verify=False, proxies=FileProcess.Vars.proxies).raw)
             #im.save(filename)
-            ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url])
+            if ModelSetting.get_bool('use_proxy'):
+                ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url, '-e', 'use_proxy=yes', '-e', 'http_proxy=%s' % ModelSetting.get('proxy_url').replace('https://', '').replace('http://', '')])
+            else:
+                ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url])
             return send_file(filename, mimetype='image/jpeg')
         elif sub == 'discord_proxy':
             from framework.common.notify import discord_proxy_image

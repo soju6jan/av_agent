@@ -178,7 +178,11 @@ def api(sub):
                 logger.debug(' '.join(command))
                 ret = SystemLogicCommand.execute_command_return(command)
             else:
+                tmp = image_url.split('//')
+                if len(tmp) == 2:
+                    image_url = tmp[1]
                 ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url])
+            
             return send_file(filename, mimetype='image/jpeg')
         elif sub == 'discord_proxy':
             from framework.common.notify import discord_proxy_image

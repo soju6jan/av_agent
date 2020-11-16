@@ -181,7 +181,7 @@ def api(sub):
                 tmp = image_url.split('//')
                 if len(tmp) == 2:
                     image_url = tmp[1]
-                ret = SystemLogicCommand.execute_command_return(['wget', '-O', filename, image_url])
+                ret = SystemLogicCommand.execute_command_return(['curl', '-o', filename, image_url])
             
             return send_file(filename, mimetype='image/jpeg')
         elif sub == 'discord_proxy':

@@ -185,9 +185,9 @@ def api(sub):
             
             return send_file(filename, mimetype='image/jpeg')
         elif sub == 'discord_proxy':
-            from framework.common.notify import discord_proxy_image
+            from tool_expand import ToolExpandDiscord
             image_url = request.args.get('url')
-            ret = discord_proxy_image(image_url, webhook_url=ModelSetting.get('discord_proxy_webhook_url'))
+            ret = ToolExpandDiscord.discord_proxy_image(image_url, webhook_url=ModelSetting.get('discord_proxy_webhook_url'))
             #logger.debug(ret)
             #return redirect(ret)
             from PIL import Image
